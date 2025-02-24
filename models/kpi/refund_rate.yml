@@ -1,0 +1,12 @@
+version: 2
+models:
+  - name: refund_rate
+    description: |
+      The Refund Rate KPI measures the percentage of orders that include a refund, 
+      indicating the level of post-sale adjustments or disputes.
+      
+      Formula: (COUNT(DISTINCT ORDERS_LINE_ITEM_REFUND.orders_line_item_order_id) /
+      COUNT(DISTINCT ORDER_HISTORY.ID)) * 100
+    columns:
+      - name: refund_rate
+        description: "Percentage representing the Refund Rate."

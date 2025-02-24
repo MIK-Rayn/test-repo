@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: fulfillment_success_rate
+    description: |
+      Represents the proportion of orders that reach a 'completed' fulfillment status, useful for assessing the efficiency and reliability of shipping and logistics processes.
+      
+      Formula:
+      COUNT(DISTINCT CASE WHEN order_history.order_fulfillment_status = 'Completed' THEN order_history.id END) /
+      COUNT(DISTINCT orders_fulfillment_start_instruction.order_id)
+    columns:
+      - name: fulfillment_success_rate
+        description: |
+          The calculated fulfillment success rate. A value of 1.0 indicates that all orders with a fulfillment start instruction have a corresponding order history record with a 'Completed' status.
+        tests:
+          - not_null

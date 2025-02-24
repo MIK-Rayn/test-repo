@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: cancellation_rate
+    description: "This model calculates the Cancellation Rate KPI, which measures the percentage of orders with cancellation requests. It helps in identifying potential issues in order fulfillment or customer satisfaction."
+    columns:
+      - name: cancellation_rate
+        description: "Cancellation Rate calculated as 100 * (SUM(CASE WHEN order_history.cancel_request = true THEN 1 ELSE 0 END) / COUNT(*))"
+
+kpis:
+  - name: Cancellation Rate
+    description: "Measures the percentage of orders with cancellation requests, helping identify potential issues in order fulfillment or customer satisfaction."
+    calculation: "100 * (SUM(CASE WHEN order_history.cancel_request = true THEN 1 ELSE 0 END) / COUNT(*))"
+    model: ref('cancellation_rate')

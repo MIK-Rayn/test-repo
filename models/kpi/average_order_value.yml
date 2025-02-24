@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: average_order_value
+    description: >
+      Indicates the mean revenue per order, aiding in the assessment of pricing strategy and customer spending behavior.
+      Formula: AOV = SUM(ORDER_HISTORY.TOTAL_VALUE) / COUNT(ORDER_HISTORY.ID).
+    columns:
+      - name: aov
+        description: >
+          Average Order Value computed as the total order revenue divided by the number of orders. This KPI helps in analyzing pricing strategies and customer spending behaviors.
