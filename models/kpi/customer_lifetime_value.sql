@@ -1,28 +1,36 @@
--- This model calculates the Customer Lifetime Value (CLV) KPI.
--- CLV = SUM(ORDER_HISTORY.TOTAL_VALUE - (costs from line items) - (refunds from line items) - (refunds from payments))
-
-with order_aggregates as (
-    select
-        oh.ID as order_id,
-        oh.TOTAL_VALUE as total_value,
-        (
-            select coalesce(sum(li.cost_value * li.quantity), 0)
-            from ORDERS_LINE_ITEM li
-            where li.order_id = oh.ID
-        ) as total_cost,
-        (
-            select coalesce(sum(lir.amount_value), 0)
-            from ORDERS_LINE_ITEM_REFUND lir
-            where lir.orders_line_item_order_id = oh.ID
-        ) as total_line_item_refund,
-        (
-            select coalesce(sum(ppr.amount_value), 0)
-            from ORDERS_PAYMENT_REFUND ppr
-            where ppr.orders_payment_order_id = oh.ID
-        ) as total_payment_refund
-    from ORDER_HISTORY oh
+with line_item_refunds as (
+    select orders_line_item_order_id,
+           sum(amount_value) as total_line_item_refund
+    from ORDERS_LINE_ITEM_REFUND
+    group by orders_line_item_order_id
+),
+payment_refunds as (
+    select orders_payment_order_id,
+           sum(amount_value) as total_payment_refund
+    from ORDERS_PAYMENT_REFUND
+    group by orders_payment_order_id
+),
+promotions as (
+    select orders_line_item_order_id,
+           sum(amount_value) as total_promotion
+    from ORDERS_LINE_ITEM_PROMOTION
+    group by orders_line_item_order_id
 )
 
-select
-    sum(total_value - total_cost - total_line_item_refund - total_payment_refund) as customer_lifetime_value
-from order_aggregates;
+select 
+    oh.BUYER_EMAIL as customer_email,
+    sum(
+        oh.TOTAL_VALUE 
+        - oh.FEE_VALUE 
+        - coalesce(lir.total_line_item_refund, 0)
+        - coalesce(pr.total_payment_refund, 0)
+        - coalesce(p.total_promotion, 0)
+    ) as customer_lifetime_value
+from ORDER_HISTORY oh
+left join line_item_refunds lir
+    on oh.ID = lir.orders_line_item_order_id
+left join payment_refunds pr
+    on oh.ID = pr.orders_payment_order_id
+left join promotions p
+    on oh.ID = p.orders_line_item_order_id
+group by oh.BUYER_EMAIL

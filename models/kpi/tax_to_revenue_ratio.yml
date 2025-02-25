@@ -1,0 +1,14 @@
+version: 2
+models:
+  - name: tax_to_revenue_ratio
+    description: >
+      This model calculates the Tax-to-Revenue Ratio KPI. The KPI is designed to reflect the proportion of tax collected relative to total revenue.
+      
+      Formula: (SUM(ORDER_HISTORY.TAX_VALUE) / SUM(ORDER_HISTORY.TOTAL_VALUE)) * 100
+    columns:
+      - name: total_tax
+        description: "The total tax collected across all orders."
+      - name: total_revenue
+        description: "The total revenue from all orders."
+      - name: tax_to_revenue_ratio
+        description: "The calculated Tax-to-Revenue ratio, representing the percentage of revenue that is collected as tax."

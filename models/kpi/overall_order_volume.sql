@@ -2,10 +2,15 @@
 
 {{ config(materialized='table') }}
 
--- This model calculates the Overall Order Volume KPI by counting the total number of unique orders
--- from the ORDER_HISTORY table within a specified time period.
+with order_data as (
+    select
+        ID,
+        CREATION_DATE
+    from {{ ref('order_history') }}
+)
 
-SELECT
-    COUNT(DISTINCT ID) AS overall_order_volume
-FROM {{ ref('ORDER_HISTORY') }}
-WHERE CREATION_DATE BETWEEN '{{ var("start_date") }}' AND '{{ var("end_date") }}';
+select
+    count(ID) as overall_order_volume
+from order_data
+where CREATION_DATE between '{{ var("start_date", "2023-01-01") }}' and '{{ var("end_date", "2023-12-31") }}'
+;

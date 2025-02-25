@@ -1,0 +1,14 @@
+version: 2
+models:
+  - name: kpi_fulfillment_success_rate
+    description: >
+      KPI: Fulfillment Success Rate
+      
+      This metric represents the proportion of orders that reach a 'Completed' fulfillment status. It is calculated by dividing the number of distinct orders with a fulfillment status of 'Completed' (from ORDER_HISTORY) by the total number of distinct order fulfillment instructions (from ORDERS_FULFILLMENT_START_INSTRUCTION).
+    columns:
+      - name: fulfillment_success_rate
+        description: >
+          The fulfillment success rate is determined as:
+          (Count of distinct orders with ORDER_FULFILLMENT_STATUS = 'Completed') divided by (Count of distinct order ids in ORDERS_FULFILLMENT_START_INSTRUCTION).
+        tests:
+          - not_null

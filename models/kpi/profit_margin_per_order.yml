@@ -3,15 +3,18 @@ version: 2
 models:
   - name: profit_margin_per_order
     description: |
-      The Profit Margin per Order KPI assesses the profitability of each order after subtracting all relevant costs.
-      
-      Formula:
-        (ORDER_HISTORY.TOTAL_VALUE - SUM(ORDERS_LINE_ITEM.cost_value * ORDERS_LINE_ITEM.quantity) - SUM(ORDERS_LINE_ITEM.shipping_cost_value) - ORDER_HISTORY.FEE_VALUE) / ORDER_HISTORY.TOTAL_VALUE
-      
-      The KPI is calculated by joining the order history with aggregated cost and shipping details from the order line items. This allows for an accurate computation of profit margin per order.
+      Profit Margin per Order is a KPI that assesses the profitability of each order. It calculates the profit margin after subtracting all associated costs including fees, cost of goods sold, and shipping costs.
     columns:
       - name: order_id
-        description: "The unique identifier for each order (sourced from ORDER_HISTORY.ID)."
-      - name: profit_margin_per_order
+        description: "Unique identifier for each order from the ORDER_HISTORY table."
+      - name: total_value
+        description: "The total monetary value of the order as recorded in the ORDER_HISTORY table."
+      - name: fee_value
+        description: "The fee amount associated with the order from the ORDER_HISTORY table."
+      - name: profit_margin
         description: |
-          The computed profit margin per order. The value is derived by subtracting total product cost, total shipping cost, and fee value from the order's total value and then dividing the result by the total value. A higher value indicates better profitability for that order.
+          The calculated profit margin per order. This is computed using the formula:
+          
+              TOTAL_VALUE - FEE_VALUE - (SUM of (cost_value + shipping_cost_value) from ORDERS_LINE_ITEM)
+          
+          This metric provides insight into the net profitability of an order after accounting for key costs.

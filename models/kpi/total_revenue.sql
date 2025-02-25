@@ -1,12 +1,11 @@
 -- total_revenue.sql
 
-with order_history_data as (
+with order_data as (
     select
-        TOTAL_VALUE
+        total_value
     from {{ ref('order_history') }}
 )
 
 select
-    sum(TOTAL_VALUE) as total_revenue
-from order_history_data
-;
+    sum(total_value) as total_revenue
+from order_data;

@@ -3,15 +3,14 @@ version: 2
 models:
   - name: overall_order_volume
     description: >
-      KPI Name: Overall Order Volume
-      
-      Definition: Tracks the total number of orders processed over a specified period, providing a high-level view of business activity and seasonal trends.
+      The Overall Order Volume KPI calculates the total number of orders processed over a specified period. 
+      It provides a high-level view of business activity and helps identify seasonal trends.
     columns:
       - name: overall_order_volume
-        description: >
-          The total number of unique orders recorded in the ORDER_HISTORY table between the specified start and end dates.
+        description: "The total count of orders processed within the selected date range."
     meta:
-      kpi:
-        kpi_name: "Overall Order Volume"
-        definition: "Tracks the total number of orders processed over a specified period, providing a high-level view of business activity and seasonal trends."
-        formula: "SELECT COUNT(DISTINCT ID) FROM ORDER_HISTORY WHERE CREATION_DATE BETWEEN {start_date} AND {end_date}"
+      kpi_definition: "Tracks the total number of orders processed over a specified period."
+      kpi_formula: |
+        SELECT COUNT(ID) AS overall_order_volume 
+        FROM ORDER_HISTORY 
+        WHERE CREATION_DATE BETWEEN {start_date} AND {end_date}

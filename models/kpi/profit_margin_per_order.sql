@@ -1,19 +1,23 @@
--- profit_margin_per_order.sql
+-- Profit Margin per Order KPI Model
+-- This model calculates the profit margin for each order by subtracting the fees and costs (cost of goods sold + shipping cost) from the total order value.
 
-WITH order_line_item_cost AS (
-    SELECT
-        order_id,
-        SUM(cost_value * quantity) AS total_cost,
-        SUM(shipping_cost_value) AS total_shipping_cost
-    FROM {{ ref('orders_line_item') }}
-    GROUP BY order_id
+with order_profit as (
+    select
+        oh.ID as order_id,
+        oh.TOTAL_VALUE as total_value,
+        oh.FEE_VALUE as fee_value,
+        oh.TOTAL_VALUE - oh.FEE_VALUE - COALESCE((
+            select sum(li.cost_value + li.shipping_cost_value)
+            from {{ ref('ORDERS_LINE_ITEM') }} li
+            where li.order_id = oh.ID
+        ), 0) as profit_margin
+    from {{ ref('ORDER_HISTORY') }} oh
 )
 
-SELECT
-    OH.ID AS order_id,
-    (
-        OH.TOTAL_VALUE - COALESCE(ol.total_cost, 0) - COALESCE(ol.total_shipping_cost, 0) - OH.FEE_VALUE
-    ) / OH.TOTAL_VALUE AS profit_margin_per_order
-FROM {{ ref('order_history') }} OH
-LEFT JOIN order_line_item_cost ol ON OH.ID = ol.order_id
-WHERE OH.TOTAL_VALUE <> 0
+select
+    order_id,
+    total_value,
+    fee_value,
+    profit_margin
+from order_profit
+;

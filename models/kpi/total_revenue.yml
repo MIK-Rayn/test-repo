@@ -2,7 +2,18 @@ version: 2
 
 models:
   - name: total_revenue
-    description: "Calculates the Total Revenue KPI by aggregating all order values from the order_history table. This KPI aggregates all order values to reflect the overall revenue generated."
+    description: |
+      This model calculates the Total Revenue KPI by aggregating all order values from the order_history table.
+      
+      KPI Details:
+      - Name: Total Revenue
+      - Definition: This metric aggregates all order values to reflect the overall revenue generated.
+      - Formula: SUM(ORDER_HISTORY.total_value)
     columns:
       - name: total_revenue
-        description: "Total Revenue is computed as the sum of ORDER_HISTORY.TOTAL_VALUE."
+        description: The aggregated total revenue, computed as the sum of total_value from order_history.
+    meta:
+      kpi:
+        name: Total Revenue
+        definition: This metric aggregates all order values to reflect the overall revenue generated.
+        formula: SUM(ORDER_HISTORY.total_value)
