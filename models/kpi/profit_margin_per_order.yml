@@ -2,19 +2,19 @@ version: 2
 
 models:
   - name: profit_margin_per_order
-    description: |
-      Profit Margin per Order is a KPI that assesses the profitability of each order. It calculates the profit margin after subtracting all associated costs including fees, cost of goods sold, and shipping costs.
+    description: >
+      This model calculates the Profit Margin per Order KPI. It assesses the profitability of each order by subtracting all costs (including the cost of goods sold, shipping costs, and fees) from the total order value. The KPI is calculated using the formula:
+      (order_history.total_value - (SUM(orders_line_item.cost_value * orders_line_item.quantity) + SUM(orders_line_item.shipping_cost_value) + order_history.fee_value)) / order_history.total_value.
     columns:
+      - name: profit_margin_per_order
+        description: "The profit margin per order represented as a ratio, where a higher value indicates higher profitability."
       - name: order_id
-        description: "Unique identifier for each order from the ORDER_HISTORY table."
+        description: "Unique identifier for the order from the order_history table."
       - name: total_value
-        description: "The total monetary value of the order as recorded in the ORDER_HISTORY table."
+        description: "The total monetary value of the order as recorded in the order_history table."
       - name: fee_value
-        description: "The fee amount associated with the order from the ORDER_HISTORY table."
-      - name: profit_margin
-        description: |
-          The calculated profit margin per order. This is computed using the formula:
-          
-              TOTAL_VALUE - FEE_VALUE - (SUM of (cost_value + shipping_cost_value) from ORDERS_LINE_ITEM)
-          
-          This metric provides insight into the net profitability of an order after accounting for key costs.
+        description: "The fee associated with the order from the order_history table."
+      - name: total_items_cost
+        description: "The aggregated cost of items based on cost_value multiplied by quantity from the orders_line_item table."
+      - name: total_shipping_cost
+        description: "The aggregated shipping costs from the orders_line_item table."

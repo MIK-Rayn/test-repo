@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: aov
+    description: >
+      The Average Order Value (AOV) indicates the mean revenue per order. It is calculated using the formula:
+      AOV = SUM(ORDER_HISTORY.TOTAL_VALUE) / COUNT(ORDER_HISTORY.ID)
+      and can help in assessing pricing strategy and customer spending behavior.
+    columns:
+      - name: total_revenue
+        description: "The total revenue from all orders, computed as the sum of ORDER_HISTORY.TOTAL_VALUE."
+      - name: total_orders
+        description: "The total number of orders, computed as the count of ORDER_HISTORY.ID."
+      - name: average_order_value
+        description: "The Average Order Value, calculated as total_revenue divided by total_orders."
+
+metrics:
+  - name: average_order_value
+    label: "Average Order Value (AOV)"
+    description: >
+      This metric measures the average revenue per order. It is a key performance indicator that provides insights
+      into customer spending behavior and helps in evaluating the effectiveness of pricing strategies.
+    calculation_method: aggregate
+    expression: "sum(total_value) / count(id)"
+    dimensions:
+      - total_revenue
+      - total_orders

@@ -1,24 +1,17 @@
--- Refund Rate KPI Model
--- This model calculates the percentage of orders that include a refund.
-
-with orders as (
+-- This model calculates the Refund Rate KPI
+with refund_orders as (
     select
-        count(distinct ID) as total_orders
-    from {{ ref('order_history') }}
-),
-refunds as (
-    select
-        count(distinct orders_line_item_order_id) as total_refund_orders
+        count(distinct orders_line_item_order_id) as refund_count
     from {{ ref('orders_line_item_refund') }}
+),
+
+total_orders as (
+    select
+        count(distinct id) as total_orders
+    from {{ ref('order_history') }}
 )
 
 select
-    r.total_refund_orders,
-    o.total_orders,
-    case
-        when o.total_orders = 0 then 0
-        else (r.total_refund_orders * 100.0 / o.total_orders)
-    end as refund_rate
-from orders o
-cross join refunds r
+    (refund_count / nullif(total_orders, 0)) * 100 as refund_rate
+from refund_orders, total_orders
 ;

@@ -1,0 +1,215 @@
+version: 2
+sources:
+-   name: dbt_source
+    database: MIK_DB
+    schema: EBAY
+    tables:
+    -   name: ORDERS_FULFILLMENT_START_INSTRUCTION
+        columns:
+        -   name: index
+        -   name: order_id
+        -   name: ebay_supported_fulfillment
+        -   name: fulfillment_instructions_type
+        -   name: max_estimated_delivery_date
+        -   name: min_estimated_delivery_date
+        -   name: ship_to_contact_address_city
+        -   name: ship_to_contact_address_country_code
+        -   name: ship_to_contact_address_line_1
+        -   name: ship_to_contact_address_line_2
+        -   name: ship_to_contact_address_postalcode
+        -   name: ship_to_contact_address_state
+        -   name: ship_to_email
+        -   name: ship_to_fullname
+        -   name: ship_to_phone_number
+        -   name: shipping_service_code
+    -   name: ORDERS_LINE_ITEM
+        columns:
+        -   name: id
+        -   name: order_id
+        -   name: buyer_protection
+        -   name: cost_currency
+        -   name: cost_value
+        -   name: fulfillment_status
+        -   name: guaranteed_delivery
+        -   name: item_country_code
+        -   name: item_location
+        -   name: item_postal_code
+        -   name: legacy_item_id
+        -   name: legacy_variation_id
+        -   name: listing_marketplace_id
+        -   name: max_estimated_delivery_date
+        -   name: min_estimated_delivery_date
+        -   name: purchase_marketplace_id
+        -   name: quantity
+        -   name: ship_by_date
+        -   name: shipping_cost_currency
+        -   name: shipping_cost_value
+        -   name: sku
+        -   name: sold_format
+        -   name: sold_via_ad_campaign
+        -   name: title
+        -   name: total_currency
+        -   name: total_value
+    -   name: ORDERS_LINE_ITEM_PROMOTION
+        columns:
+        -   name: promotion_id
+        -   name: orders_line_item_id
+        -   name: orders_line_item_order_id
+        -   name: amount_currency
+        -   name: amount_value
+        -   name: converted_from_currency
+        -   name: converted_from_value
+        -   name: description
+    -   name: ORDERS_LINE_ITEM_REFUND
+        columns:
+        -   name: index
+        -   name: orders_line_item_id
+        -   name: orders_line_item_order_id
+        -   name: amount_currency
+        -   name: amount_value
+        -   name: converted_from_currency
+        -   name: converted_from_value
+        -   name: refund_date
+        -   name: refund_id
+        -   name: refund_reference_id
+        -   name: refund_status
+    -   name: ORDERS_LINE_ITEM_TAX
+        columns:
+        -   name: tax_type
+        -   name: orders_line_item_id
+        -   name: orders_line_item_order_id
+        -   name: amount_currency
+        -   name: amount_value
+        -   name: converted_from_currency
+        -   name: converted_from_value
+    -   name: ORDERS_LINE_ITEM_VARIATION_ASPECT
+        columns:
+        -   name: index
+        -   name: orders_line_item_id
+        -   name: orders_line_item_order_id
+        -   name: name
+        -   name: value
+    -   name: ORDERS_PAYMENT
+        columns:
+        -   name: reference_id
+        -   name: order_id
+        -   name: amount_currency
+        -   name: amount_value
+        -   name: date
+        -   name: method
+        -   name: status
+    -   name: ORDERS_PAYMENT_HOLD
+        columns:
+        -   name: index
+        -   name: orders_payment_order_id
+        -   name: orders_payment_reference_id
+        -   name: amount_currency
+        -   name: amount_value
+        -   name: expected_release_date
+        -   name: reason
+        -   name: release_date
+        -   name: seller_action_to_release
+        -   name: state
+    -   name: ORDERS_PAYMENT_REFUND
+        columns:
+        -   name: index
+        -   name: orders_payment_order_id
+        -   name: orders_payment_reference_id
+        -   name: amount_currency
+        -   name: amount_value
+        -   name: converted_from_currency
+        -   name: converted_from_value
+        -   name: refund_date
+        -   name: refund_id
+        -   name: refund_reference_id
+        -   name: refund_status
+    -   name: ORDER_HISTORY
+        columns:
+        -   name: ID
+        -   name: ADJUSTMENT_CURRENCY
+        -   name: ADJUSTMENT_VALUE
+        -   name: BUYER_CONTACT_ADDRESS_CITY
+        -   name: BUYER_CONTACT_ADDRESS_COUNTRY_CODE
+        -   name: BUYER_CONTACT_ADDRESS_LINE_1
+        -   name: BUYER_CONTACT_ADDRESS_POSTAL_CODE
+        -   name: BUYER_CONTACT_ADDRESS_STATE
+        -   name: BUYER_EMAIL
+        -   name: BUYER_FULLNAME
+        -   name: BUYER_PHONE_NUMBER
+        -   name: BUYER_SECONDARY_PHONE_NUMBER
+        -   name: BUYER_TAX_ADDRESS_CITY
+        -   name: BUYER_TAX_ADDRESS_COUNTRY_CODE
+        -   name: BUYER_TAX_ADDRESS_POSTAL_CODE
+        -   name: BUYER_TAX_ADDRESS_STATE
+        -   name: BUYER_USERNAME
+        -   name: CANCEL_REQUEST
+        -   name: CANCEL_STATE
+        -   name: CREATION_DATE
+        -   name: DELIVERY_COST_CURRENCY
+        -   name: DELIVERY_COST_VALUE
+        -   name: DELIVERY_DISCOUNT_CURRENCY
+        -   name: DELIVERY_DISCOUNT_VALUE
+        -   name: EBAY_COLLECT_AND_REMIT_TAX
+        -   name: FEE_CURRENCY
+        -   name: FEE_VALUE
+        -   name: FULFILLMENT_HREF
+        -   name: LAST_MODIFIED_DATE
+        -   name: LEGACY_ORDER_ID
+        -   name: ORDER_FULFILLMENT_STATUS
+        -   name: ORDER_PAYMENT_STATUS
+        -   name: PAYMENT_REFUND
+        -   name: PAYMENT_TOTAL_DUE_SELLER_CURRENCY
+        -   name: PAYMENT_TOTAL_DUE_SELLER_VALUE
+        -   name: PRICE_DISCOUNT_CURRENCY
+        -   name: PRICE_DISCOUNT_VALUE
+        -   name: PRICE_SUBTOTAL_CURRENCY
+        -   name: PRICE_SUBTOTAL_VALUE
+        -   name: SALES_RECORD_REFERENCE
+        -   name: SELLER_ID
+        -   name: TAX_CURRENCY
+        -   name: TAX_VALUE
+        -   name: TOTAL_CURRENCY
+        -   name: TOTAL_FEE_BASIS_AMOUNTCURRENCY
+        -   name: TOTAL_FEE_BASIS_AMOUNTVALUE
+        -   name: TOTAL_MARKETPLACE_FEECURRENCY
+        -   name: TOTAL_MARKETPLACE_FEEVALUE
+        -   name: TOTAL_VALUE
+    -   name: PAYMENT_DISPUTE
+        columns:
+        -   name: id
+        -   name: order_id
+        -   name: amount_currency
+        -   name: amount_value
+        -   name: buyer_provided_note
+        -   name: buyer_username
+        -   name: open_date
+        -   name: reason
+        -   name: respond_by_date
+        -   name: revision
+        -   name: seller_response
+        -   name: status
+    -   name: PAYMENT_DISPUTE_ACTIVITY
+        columns:
+        -   name: activity_date
+        -   name: payment_dispute_id
+        -   name: activity_type
+        -   name: actor
+    -   name: PAYMENT_DISPUTE_LINE_ITEM
+        columns:
+        -   name: line_item_id
+        -   name: payment_dispute_id
+        -   name: item_id
+    -   name: SHIPPING_FULFILLMENT
+        columns:
+        -   name: _fivetran_id
+        -   name: order_id
+        -   name: carrier_code
+        -   name: fulfillment_id
+        -   name: service_code
+        -   name: shipped_date
+        -   name: tracking_number
+    -   name: SHIPPING_FULFILLMENT_LINE_ITEM
+        columns:
+        -   name: line_item_id
+        -   name: shipping_fulfillment_fivetran_id
+        -   name: quantity

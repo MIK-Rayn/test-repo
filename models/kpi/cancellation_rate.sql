@@ -1,13 +1,17 @@
 -- cancellation_rate.sql
--- This model calculates the Cancellation Rate KPI
 
-WITH order_data AS (
-    SELECT
-        ID,
-        CANCEL_REQUEST
-    FROM {{ ref('ORDER_HISTORY') }}
+with total_orders as (
+    select count(*) as total
+    from {{ ref('order_history') }}
+),
+cancelled_orders as (
+    select count(*) as cancelled
+    from {{ ref('order_history') }}
+    where cancel_request = true
 )
 
-SELECT
-    (SUM(CASE WHEN CANCEL_REQUEST = TRUE THEN 1 ELSE 0 END) / COUNT(ID)) * 100 AS cancellation_rate
-FROM order_data;
+select
+    cancelled,
+    total,
+    case when total = 0 then 0 else (cancelled * 100.0 / total) end as cancellation_rate
+from cancelled_orders, total_orders;

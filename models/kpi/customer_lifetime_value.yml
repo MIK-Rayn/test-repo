@@ -1,12 +1,11 @@
 version: 2
 models:
   - name: customer_lifetime_value
-    description: >
-      This model calculates the Customer Lifetime Value (CLV) KPI. CLV estimates the total net profit a business can expect
-      from a single customer over the entire relationship. The calculation is performed by summing, for each order in ORDER_HISTORY,
-      the value: (TOTAL_VALUE - FEE_VALUE - (line item refunds + payment refunds) - promotion amounts).
+    description: |
+      The Customer Lifetime Value (CLV) model calculates the total net profit a business can expect from a single customer over the entire relationship. 
+      The calculation subtracts the total cost (derived from the cost of line items multiplied by their quantities), the sum of line item refunds, and 
+      the sum of payment refunds from the order's total value, as recorded in the ORDER_HISTORY table.
     columns:
-      - name: customer_email
-        description: "Email address of the customer associated with the orders."
       - name: customer_lifetime_value
-        description: "Aggregated Customer Lifetime Value (CLV) calculated for the customer by summing adjusted order values."
+        description: |
+          The final CLV metric representing the aggregated net profit after deducting associated costs and refunds for all orders.
