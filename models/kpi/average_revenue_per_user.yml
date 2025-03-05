@@ -1,0 +1,16 @@
+version: 2
+models:
+  - name: average_revenue_per_user
+    description: |
+      The Average Revenue Per User (ARPU) KPI calculates the monthly average revenue generated per customer. 
+      This metric is determined by summing the total_amount from customer invoices and dividing by 
+      the distinct count of customers who were invoiced during the month. The invoicing period is defined 
+      by the runtime variables 'start_of_month' and 'end_of_month'.
+    columns:
+      - name: ARPU
+        description: |
+          Represents the monthly average revenue per customer. Calculated using the formula:
+          
+          SUM(total_amount) / COUNT(DISTINCT customer_id)
+          
+          where the data is filtered for invoices with an invoice_date between {{ var('start_of_month') }} and {{ var('end_of_month') }}.

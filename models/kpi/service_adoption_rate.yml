@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: service_adoption_rate
+    description: >
+      The Service Adoption Rate KPI calculates the percentage of customers who are subscribed to multiple services.
+      It divides the number of customers with two or more active service assignments by the total number of customers, multiplied by 100.
+    columns:
+      - name: service_adoption_rate
+        description: >
+          The calculated percentage of customers that have adopted multiple services.
+    meta:
+      kpi:
+        name: Service Adoption Rate
+        definition: >
+          Percentage of customers who subscribe to multiple services.
+        formula: >
+          ((SELECT COUNT(*) FROM (SELECT customer_id FROM { source('Combined Source', 'prv_service_assignments') } WHERE status = { var('active_status') } GROUP BY customer_id HAVING COUNT(service_id) >= { var('multi_service_threshold') }) AS multi_service_customers) / (SELECT COUNT(*) FROM { source('Combined Source', 'crm_customers') })) * 100
+        owner: Analytics Team
+        tags: [kpi, adoption_rate]

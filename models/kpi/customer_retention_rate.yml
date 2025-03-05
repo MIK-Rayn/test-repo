@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: customer_retention_rate
+    description: |
+      The Customer Retention Rate is the percentage of customers who remain subscribed to services over a defined period. It is calculated using the following formula:
+
+      (COUNT(DISTINCT CASE WHEN service_assignment.start_date <= PeriodStart AND (service_assignment.end_date IS NULL OR service_assignment.end_date > PeriodEnd) THEN service_assignment.customer_id END) * 100.0)
+      /
+      COUNT(DISTINCT CASE WHEN service_assignment.start_date <= PeriodStart AND (service_assignment.end_date IS NULL OR service_assignment.end_date > PeriodStart) THEN service_assignment.customer_id END)
+    columns:
+      - name: customer_retention_rate
+        description: "Calculated percentage of retained customers over the specified period."
+      - name: retained_customers
+        description: "Count of distinct customers with a service assignment that started on or before PeriodStart and has not ended by PeriodEnd."
+      - name: total_customers
+        description: "Count of distinct customers with a service assignment that started on or before PeriodStart and has not ended by PeriodStart."
+
+vars:
+  - name: PeriodStart
+    description: "The start date of the period for which the KPI is calculated (e.g., '2023-01-01')."
+  - name: PeriodEnd
+    description: "The end date of the period for which the KPI is calculated (e.g., '2023-01-31')."
