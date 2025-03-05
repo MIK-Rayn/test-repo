@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: customer_acquisition_cost
+    description: |
+      The Customer Acquisition Cost (CAC) KPI measures the average cost incurred in acquiring a new customer from marketing campaigns. 
+      This is calculated by dividing the sum of the marketing campaign budgets by the number of distinct customers who responded to the campaign.
+    columns:
+      - name: customer_acquisition_cost
+        description: |
+          This column represents the average cost to acquire a new customer. It is computed as follows:
+
+          SUM({{ source('Combined Source', 'MKT_CAMPAIGNS') }}.BUDGET) /
+          COUNT(DISTINCT CASE WHEN {{ source('Combined Source', 'MKT_CAMPAIGN_TARGETS') }}.RESPONSE_FLAG = TRUE THEN {{ source('Combined Source', 'MKT_CAMPAIGN_TARGETS') }}.CUSTOMER_ID END).

@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: customer_retention_rate
+    description: >
+      KPI - Customer Retention Rate
+      
+      Definition: Percentage of customers who remain subscribed to services over a defined period.
+      
+      Formula: (COUNT(DISTINCT CASE WHEN PRV_SERVICE_ASSIGNMENTS.START_DATE <= {{ var('PeriodStart') }} AND (PRV_SERVICE_ASSIGNMENTS.END_DATE IS NULL OR PRV_SERVICE_ASSIGNMENTS.END_DATE >= {{ var('PeriodEnd') }}) THEN PRV_SERVICE_ASSIGNMENTS.CUSTOMER_ID END) /
+      COUNT(DISTINCT CASE WHEN PRV_SERVICE_ASSIGNMENTS.START_DATE <= {{ var('PeriodStart') }} THEN PRV_SERVICE_ASSIGNMENTS.CUSTOMER_ID END)) * 100
+    columns:
+      - name: customer_retention_rate
+        description: "The calculated customer retention rate as a percentage. It reflects the proportion of customers who remain subscribed to services over the defined period."

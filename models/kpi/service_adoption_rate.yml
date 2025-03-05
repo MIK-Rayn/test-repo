@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: service_adoption_rate
+    description: >
+      KPI: Service Adoption Rate
+      
+      Definition: Percentage of customers who subscribe to multiple services.
+      
+      Formula: ((SELECT COUNT(*) FROM (SELECT CUSTOMER_ID FROM {{ source('Combined Source', 'PRV_SERVICE_ASSIGNMENTS') }} GROUP BY CUSTOMER_ID HAVING COUNT(DISTINCT SERVICE_ID) > 1) AS multi_service_customers) / (SELECT COUNT(DISTINCT CUSTOMER_ID) FROM {{ source('Combined Source', 'PRV_SERVICE_ASSIGNMENTS') }})) * 100
+    columns:
+      - name: service_adoption_rate
+        description: "Calculated percentage of customers who subscribe to multiple services."

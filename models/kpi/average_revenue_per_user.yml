@@ -1,0 +1,12 @@
+version: 2
+models:
+  - name: average_revenue_per_user
+    description: >
+      Average Revenue Per User (ARPU) is the monthly average revenue generated per customer. 
+      It is calculated by dividing the total payments received in a target month by the number of unique customers 
+      invoiced during that same month.
+    columns:
+      - name: arpu
+        description: The computed Average Revenue Per User for the specified month. Returns 0 if no customers are invoiced.
+      - name: target_month
+        description: The month for which the ARPU is being calculated. This value is provided at runtime via the {{ var('target_month') }} variable.
